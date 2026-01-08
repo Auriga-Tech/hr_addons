@@ -155,9 +155,9 @@ class Overtime(Document):
 				for attendance in attendance_data:
 					frappe.db.set_value('Attendance',attendance['name'], 'custom_overtimemarked_in_system',hourly_ot)
 					if hourly_ot<attendance['custom_overtime_checkin']:
-						frappe.db.set_value('Attendance',attendance['name'], 'custom_actual_overtime_duration',hourly_ot)
+						frappe.db.set_value('Attendance',attendance['name'], 'custom_effective_overtime_duration',hourly_ot)
 					else:
-						frappe.db.set_value('Attendance',attendance['name'], 'custom_actual_overtime_duration',attendance['custom_overtime_checkin'])
+						frappe.db.set_value('Attendance',attendance['name'], 'custom_effective_overtime_duration',attendance['custom_overtime_checkin'])
 
 	def before_cancel(self):
 		overtime_details_data=frappe.db.get_all("Overtime Details",filters={"parent":self.name},fields=['employee'])
@@ -167,7 +167,7 @@ class Overtime(Document):
 			if attendance_data:
 				for attendance in attendance_data:
 					frappe.db.set_value('Attendance',attendance['name'], 'custom_overtimemarked_in_system',0)
-					frappe.db.set_value('Attendance',attendance['name'], 'custom_actual_overtime_duration',0)
+					frappe.db.set_value('Attendance',attendance['name'], 'custom_effective_overtime_duration',0)
 
 
 
