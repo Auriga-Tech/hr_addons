@@ -1,0 +1,157 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format:OT{##}-{to_date}-{from_date}",
+ "creation": "2026-01-07 18:27:30.302248",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "apply_byemployee_code",
+  "apply_byemployee_name",
+  "primary_department",
+  "column_break_ghvh",
+  "to_date",
+  "from_date",
+  "filter_employees_use_only_to_filter_employees_section",
+  "primary_designation",
+  "employment_type",
+  "apply_to_all_employee_section",
+  "hourly_ot",
+  "apply_to_all",
+  "section_break_guhs",
+  "employees",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "apply_byemployee_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Apply By(Employee Code)",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "apply_byemployee_code.employee_name",
+   "fieldname": "apply_byemployee_name",
+   "fieldtype": "Data",
+   "label": "Apply By(Employee Name)"
+  },
+  {
+   "fieldname": "primary_department",
+   "fieldtype": "Link",
+   "label": "Primary Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "column_break_ghvh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "To Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "From Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "filter_employees_use_only_to_filter_employees_section",
+   "fieldtype": "Section Break",
+   "label": "Filter employees (Use only to filter employees)"
+  },
+  {
+   "fieldname": "primary_designation",
+   "fieldtype": "Link",
+   "label": "Primary Designation",
+   "options": "Designation"
+  },
+  {
+   "fieldname": "employment_type",
+   "fieldtype": "Link",
+   "label": "Employment Type",
+   "options": "Employment Type"
+  },
+  {
+   "fieldname": "apply_to_all_employee_section",
+   "fieldtype": "Section Break",
+   "label": "Apply to all employee"
+  },
+  {
+   "fieldname": "hourly_ot",
+   "fieldtype": "Float",
+   "label": "Hourly OT"
+  },
+  {
+   "fieldname": "apply_to_all",
+   "fieldtype": "Button",
+   "label": "Apply to all"
+  },
+  {
+   "fieldname": "section_break_guhs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "employees",
+   "fieldtype": "Table",
+   "options": "Overtime Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Overtime",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Overtime",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-01-07 18:30:49.515101",
+ "modified_by": "Administrator",
+ "module": "HR Addons",
+ "name": "Overtime",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

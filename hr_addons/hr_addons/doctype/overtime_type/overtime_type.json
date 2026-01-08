@@ -1,0 +1,144 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:name1",
+ "creation": "2026-01-07 17:57:34.942892",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "name1",
+  "section_break_slcs",
+  "maximum_overtime_hours_allowed_per_day",
+  "column_break_qljc",
+  "section_break_pijs",
+  "custom_overtime_source",
+  "custom_allow_overtime_before_checkin",
+  "column_break_kvyy",
+  "custom_allow_overtime_after_checkout",
+  "section_break_etbd",
+  "overtime_amount_calculation",
+  "column_break_eyod",
+  "hourly_rate",
+  "section_break_scho",
+  "standard_multiplier"
+ ],
+ "fields": [
+  {
+   "fieldname": "maximum_overtime_hours_allowed_per_day",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Maximum Overtime Hours Allowed Per Day",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_qljc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_etbd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Salary Component Based",
+   "description": "Choose how the hourly overtime amount is calculated:\n<ol style=\"padding-left:15px;\"><li>Fixed Hourly Rate: A fixed, manually entered hourly rate.</li>\n<li>Salary Component-Based:\n\n(Sum of selected component amounts) \u00f7 (Payment Days) \u00f7 (Standard Daily Hours)</li></ol>",
+   "fieldname": "overtime_amount_calculation",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Overtime Amount Calculation",
+   "options": "Salary Component Based\nFixed Hourly Rate"
+  },
+  {
+   "fieldname": "column_break_eyod",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.overtime_amount_calculation==\"Fixed Hourly Rate\"",
+   "fieldname": "hourly_rate",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Hourly Rate",
+   "mandatory_depends_on": "eval:doc.overtime_amount_calculation==\"Fixed Hourly Rate\"",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "section_break_scho",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "description": "(this factor used to calculate overtime pay relative to the regular hourly rate.)",
+   "fieldname": "standard_multiplier",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Standard Multiplier",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "name1",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "section_break_slcs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_pijs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "custom_overtime_source",
+   "fieldtype": "Select",
+   "label": "Overtime Source",
+   "options": "Sheet Overtime\nSystem Generated Overtime"
+  },
+  {
+   "default": "0",
+   "fieldname": "custom_allow_overtime_before_checkin",
+   "fieldtype": "Check",
+   "label": "Allow Overtime Before Checkin"
+  },
+  {
+   "fieldname": "column_break_kvyy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "custom_allow_overtime_after_checkout",
+   "fieldtype": "Check",
+   "label": "Allow Overtime After Checkout"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-08 11:33:07.386972",
+ "modified_by": "Administrator",
+ "module": "HR Addons",
+ "name": "Overtime Type",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
