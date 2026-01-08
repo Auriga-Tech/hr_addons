@@ -28,6 +28,8 @@ def calculate_working_hours(employee_shift=None, attendance_date=None, in_time=N
 
 def get_daily_ot(employee=None, employee_shift=None, attendance_date=None, in_time=None, out_time=None, deduction_hours=0):
     overtime = 0
+    evening_diff = 0  # Initialize here
+    morning_diff = 0 
     try:
         if in_time and out_time:
             attendance_checkin_time = datetime.datetime.strptime(str(in_time), "%Y-%m-%d %H:%M")
@@ -265,19 +267,20 @@ def set_daily_overtime(self, method=None):
             if overtime:
                 
                 if overtime[0]['hourly_ot'] > ot_time:
-                    self.custom_actual_overtime_duration= ot_time
+                    self.custom_effective_overtime_duration= ot_time
                     
                     
                 else:
-                    self.custom_actual_overtime_duration= overtime[0]['hourly_ot']
+                    self.custom_effective_overtime_duration= overtime[0]['hourly_ot']
                 self.custom_overtime_checkin = ot_time
                 self.custom_overtimemarked_in_system = overtime[0]['hourly_ot']
-                print("if overtimr",self.custom_actual_overtime_duration)
+                print("if overtimr",self.custom_effective_overtime_duration,ot_time)
             if not overtime and self.status != "Absent":
+                print("else Absent",ot_time)
                 if emp_shift.custom_allow_overtime ==1 and emp_shift.custom_maximum_overtime_hours_allowed:
                     self.custom_overtimemarked_in_system=emp_shift.custom_maximum_overtime_hours_allowed
                     self.custom_overtime_checkin = ot_time
-                    self.custom_actual_overtime_duration=min(emp_shift.custom_maximum_overtime_hours_allowed,ot_time)
+                    self.custom_effective_overtime_duration=min(emp_shift.custom_maximum_overtime_hours_allowed,ot_time)
                 else:
                     self.custom_overtime_checkin = ot_time
                     self.custom_overtimemarked_in_system = 0
@@ -286,13 +289,10 @@ def set_daily_overtime(self, method=None):
             overtime_type=frappe.db.get_value("Shift Type",self.shift,"custom_overtime_type")
             overtime_source=frappe.db.get_value("Overtime Type",overtime_type,"custom_overtime_source")
             if overtime_source=="Sheet Overtime":
-                self.custom_actual_overtime_duration=self.custom_overtime_checkin
+                self.custom_effective_overtime_duration=self.custom_overtime_checkin
             
             
 
-            
-            
-
-            print("last",self.custom_actual_overtime_duration,self.custom_overtime_checkin,self.custom_overtimemarked_in_system)
+            print("last",self.custom_effective_overtime_duration,self.custom_overtime_checkin,self.custom_overtimemarked_in_system)
     except Exception as e:
         frappe.log_error(f"Error in set_daily_overtime: {str(e)}", "Update Error in Overtime")

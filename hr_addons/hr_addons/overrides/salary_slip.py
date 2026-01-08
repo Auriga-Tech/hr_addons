@@ -95,18 +95,24 @@ class CustomSalarySlip(SalarySlip):
 			self.payment_days = 0
 			"""Customized changes For overtime Calculation"""
 		try:
-				print("start_date",self.start_date)
-				print("end_date",self.end_date)
-				self.custom_overtimein_hours = frappe.get_value(
-                    "Attendance",
-                    {
-                        "employee": self.employee,
-                        "attendance_date": ["between", [self.start_date, self.end_date]],
-                        "docstatus": 1  # Consider only submitted records
-                    },
-                    "sum(custom_actual_overtime_duration)"
-                ) or 0  # If no records found, return 0
-				print("self.custom_overtimein_hours",self.custom_overtimein_hours)
+			print("start_date",self.start_date)
+			print("end_date",self.end_date)
+			print("employee",self.employee)
+			print("after end")
+			
+			result = frappe.db.sql("""
+				SELECT COALESCE(SUM(custom_effective_overtime_duration), 0) as total_overtime
+				FROM `tabAttendance`
+				WHERE employee = %s
+				AND attendance_date BETWEEN %s AND %s
+				AND docstatus = 1
+			""", (self.employee, self.start_date, self.end_date))
+			
+			print("SQL result:", result)
+			self.custom_overtimein_hours = result[0][0] if result else 0
+			print("self.custom_overtimein_hours",self.custom_overtimein_hours)
+			
 		except Exception as e:
-		            frappe.log_error(f"Error in set_overtime_hours: {str(e)}", "Update Error in Overtime")
+			print("Exception occurred:", str(e))
+			frappe.log_error(f"Error in set_overtime_hours: {str(e)}", "Update Error in Overtime")
             # --- NEW LOGIC TO ADD CUSTOM PART RATE AMOUNT ---
