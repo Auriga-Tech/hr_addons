@@ -5,28 +5,28 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "enable_ot",
-  "enable_gatepass"
+  "disable_ot",
+  "disable_gatepass"
  ],
  "fields": [
   {
    "default": "0",
-   "fieldname": "enable_ot",
+   "fieldname": "disable_ot",
    "fieldtype": "Check",
-   "label": "Enable OT"
+   "label": "Disable OT"
   },
   {
    "default": "0",
-   "fieldname": "enable_gatepass",
+   "fieldname": "disable_gatepass",
    "fieldtype": "Check",
-   "label": "Enable Gatepass"
+   "label": "Disable Gatepass"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-01-08 16:59:47.493037",
+ "modified": "2026-01-08 17:03:17.358060",
  "modified_by": "Administrator",
  "module": "HR Addons",
  "name": "OT and Gatepass Settings",
