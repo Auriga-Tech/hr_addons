@@ -1,4 +1,7 @@
 frappe.ui.form.on('Salary Structure Assignment', {
+    refresh: function(frm) {
+        check_ot_settings_salary_assignment(frm);
+    },
     async employee(frm) {
         if (!frm.doc.employee) return;
 
@@ -18,4 +21,28 @@ frappe.ui.form.on('Salary Structure Assignment', {
         });
     }
 });
+
+function check_ot_settings_salary_assignment(frm) {
+    frappe.call({
+        method: 'frappe.client.get_single_value',
+        args: {
+            doctype: 'HR Addons Settings',
+            field: 'disable_ot'
+        },
+        callback: function(r) {
+            if (r.message) {
+                // Hide OT related fields
+                frm.set_df_property('custom_ot_applicable', 'hidden', 1);
+                frm.set_df_property('custom_ot_rate', 'hidden', 1);
+                frm.set_df_property('custom_ot_amount_calculation', 'hidden', 1);
+                frm.set_df_property('custom_standard_multiplier', 'hidden', 1);
+            } else {
+                frm.set_df_property('custom_ot_applicable', 'hidden', 0);
+                frm.set_df_property('custom_ot_rate', 'hidden', 0);
+                frm.set_df_property('custom_ot_amount_calculation', 'hidden', 0);
+                frm.set_df_property('custom_standard_multiplier', 'hidden', 0);
+            }
+        }
+    });
+}
 

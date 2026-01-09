@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestOTandGatepassSettings(FrappeTestCase):
+class TestHRAddonsSettings(FrappeTestCase):
 	pass

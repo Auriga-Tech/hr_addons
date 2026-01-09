@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class OTandGatepassSettings(Document):
+class HRAddonsSettings(Document):
 	pass
