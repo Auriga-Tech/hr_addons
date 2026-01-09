@@ -1,0 +1,153 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-07 20:45:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "deduction_settings_section",
+  "deduct_from_working_hours",
+  "update_status_after_attendance_submitted",
+  "column_break_ybzf",
+  "create_auto_checkin_using_shift_if_not_returned",
+  "mark_absent_or_half_day_if_employee_not_returned",
+  "advanced_settings_section",
+  "minimum_deduction_minutes",
+  "rounding_method",
+  "column_break_2",
+  "enable_qr_verification",
+  "notification_settings_section",
+  "notify_on_gatepass_submit",
+  "notify_hr_on_long_absence",
+  "column_break_3",
+  "long_absence_threshold_hours",
+  "notification_email_template"
+ ],
+ "fields": [
+  {
+   "fieldname": "deduction_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Deduction Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "deduct_from_working_hours",
+   "fieldtype": "Check",
+   "label": "Deduct From Working Hours"
+  },
+  {
+   "default": "0",
+   "fieldname": "update_status_after_attendance_submitted",
+   "fieldtype": "Check",
+   "label": "Update Status(Half Day / Absent) After Attendance Submitted"
+  },
+  {
+   "default": "0",
+   "fieldname": "create_auto_checkin_using_shift_if_not_returned",
+   "fieldtype": "Check",
+   "label": "Create auto checkin using shift if employee not returned"
+  },
+  {
+   "fieldname": "column_break_ybzf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "mark_absent_or_half_day_if_employee_not_returned",
+   "fieldtype": "Check",
+   "label": "Mark absent or half day if employee not returned"
+  },
+  {
+   "fieldname": "advanced_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Advanced Settings"
+  },
+  {
+   "default": "15",
+   "fieldname": "minimum_deduction_minutes",
+   "fieldtype": "Int",
+   "label": "Minimum Deduction (Minutes)",
+   "description": "Minimum time to deduct from working hours"
+  },
+  {
+   "fieldname": "rounding_method",
+   "fieldtype": "Select",
+   "label": "Time Rounding Method",
+   "options": "No Rounding\nRound to nearest 15 minutes\nRound to nearest 30 minutes\nRound up\nRound down",
+   "default": "No Rounding"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_qr_verification",
+   "fieldtype": "Check",
+   "label": "Enable QR Code Verification"
+  },
+  {
+   "fieldname": "notification_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Notification Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "notify_on_gatepass_submit",
+   "fieldtype": "Check",
+   "label": "Send Notification on Gatepass Submit"
+  },
+  {
+   "default": "0",
+   "fieldname": "notify_hr_on_long_absence",
+   "fieldtype": "Check",
+   "label": "Notify HR on Long Absence"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "4",
+   "fieldname": "long_absence_threshold_hours",
+   "fieldtype": "Float",
+   "label": "Long Absence Threshold (Hours)",
+   "depends_on": "notify_hr_on_long_absence"
+  },
+  {
+   "fieldname": "notification_email_template",
+   "fieldtype": "Link",
+   "label": "Notification Email Template",
+   "options": "Email Template",
+   "depends_on": "eval:doc.notify_on_gatepass_submit || doc.notify_hr_on_long_absence"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-01-07 20:45:00.000000",
+ "modified_by": "Administrator",
+ "module": "Gatepass",
+ "name": "Gatepass Setting",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "HR Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
