@@ -331,7 +331,7 @@ def set_daily_overtime(self, method=None):
 
 
 @frappe.whitelist()
-def apply_gatepass_deduction(doc):
+def apply_gatepass_deduction(doc,method=None):
     """Apply gatepass deduction to attendance"""
     settings = frappe.get_single("Gatepass Setting")
     
