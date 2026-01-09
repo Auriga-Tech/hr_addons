@@ -236,6 +236,10 @@ def get_calculated_ot(minutes):
 @frappe.whitelist()
 def set_daily_overtime(self, method=None):
     try:
+        ot_applicable=frappe.get_value("Employee", self.employee, "custom_ot_applicable")
+        print("ot_applicable", ot_applicable)
+        if ot_applicable=="No":
+            return
         attendance_date = self.attendance_date
         print("attendance date",attendance_date)
         if self.in_time and not self.out_time:
@@ -270,6 +274,7 @@ def set_daily_overtime(self, method=None):
                         in_time=in_time,
                         out_time=out_time)
             print("***********",self.employee, self.attendance_date, self.attendance_date)
+           
             overtime = frappe.db.sql("""select od.hourly_ot
                                             from `tabOvertime Details` od join `tabOvertime` o 
                                             on o.name=od.parent 
@@ -320,7 +325,7 @@ def set_daily_overtime(self, method=None):
 
             overtime_type=frappe.db.get_value("Shift Type",self.shift,"custom_overtime_type")
             overtime_source=frappe.db.get_value("Overtime Type",overtime_type,"custom_overtime_source")
-            if overtime_source=="Sheet Overtime":
+            if overtime_source=="Sheet Overtime" and emp_shift.custom_allow_overtime ==1:
                 self.custom_effective_overtime_duration=self.custom_overtime_checkin
             
             

@@ -49,7 +49,8 @@ doctype_js = {
     "Attendance" : "public/js/attendance.js",
     "Overtime" : "public/js/overtime.js",
     "Salary Slip":"public/js/salary_slip.js",
-    "Shift Type":"public/js/shift_type.js"
+    "Shift Type":"public/js/shift_type.js",
+    "Employee Checkin":"public/js/employee_checkin.js"
     }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
