@@ -129,21 +129,22 @@ app_license = "mit"
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+# Override standard doctype classes
+override_doctype_class = {
+	"Attendance": "hr_addons.overrides.attendance.Attendance",
+	"Shift Type": "hr_addons.overrides.shift_type.ShiftType"
+}
 
 # Document Events
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+# Document Events
+doc_events = {
+	"Attendance": {
+		"validate": "hr_addons.utils.attendance_utils.apply_gatepass_deduction"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
@@ -247,3 +248,23 @@ app_license = "mit"
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
+# Fixtures
+# --------
+# Export custom fields for Attendance and Shift Type
+fixtures = [
+	{
+		"doctype": "Custom Field",
+		"filters": [
+			["name", "in", [
+				"Attendance-custom_gatepass_section",
+				"Attendance-custom_actual_working_hours",
+				"Attendance-custom_deduction_hours",
+				"Attendance-custom_gp_out_time", 
+				"Attendance-custom_gp_in_time",
+				"Attendance-custom_gatpass_",
+				"Shift Type-working_hours_threshold_for_absent",
+				"Shift Type-working_hours_threshold_for_half_day"
+			]]
+		]
+	}
+]
