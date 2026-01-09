@@ -139,8 +139,8 @@ doctype_js = {
 override_doctype_class = {
     "Salary Slip": "hr_addons.hr_addons.overrides.salary_slip.CustomSalarySlip",
 # Override standard doctype classes
-	"Attendance": "hr_addons.overrides.attendance.Attendance",
-	"Shift Type": "hr_addons.overrides.shift_type.ShiftType"
+	"Attendance": "hr_addons.hr_addons.overrides.attendance.Attendance",
+	"Shift Type": "hr_addons.hr_addons.overrides.shift_type.ShiftType"
 }
 
 # Document Events
@@ -148,11 +148,7 @@ override_doctype_class = {
 # Hook on document methods and events
 
 doc_events = {
-    "Attendance" : {'validate':'hr_addons.hr_addons.overrides.attendance.set_daily_overtime'},
-    
-	"Attendance": {
-		"validate": "hr_addons.utils.attendance_utils.apply_gatepass_deduction"
-	}
+    "Attendance" : {'validate':'hr_addons.hr_addons.overrides.attendance.validate'},
 }
 
 # Scheduled Tasks
