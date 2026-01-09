@@ -1,0 +1,190 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Gatepass Verification{% endblock %}
+
+{% block page_content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fa fa-qrcode"></i> Gatepass Verification
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        <i class="fa fa-exclamation-triangle"></i> {{ error }}
+                    </div>
+                    {% elif gatepass %}
+                    <!-- Gatepass Details -->
+                    <div class="mb-4">
+                        <h5 class="border-bottom pb-2">Gatepass Details</h5>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td width="40%"><strong>Gatepass ID:</strong></td>
+                                <td>{{ gatepass.name }}</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Department:</strong></td>
+                                <td>{{ gatepass.department or 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type:</strong></td>
+                                <td>
+                                    <span
+                                        class="badge {% if gatepass.type == 'Personal' %}badge-warning{% else %}badge-info{% endif %}">
+                                        {{ gatepass.type }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Out Time:</strong></td>
+                                <td>{{ gatepass.out_time }}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    {% if already_returned %}
+                    <!-- Already Returned -->
+                    <div class="alert alert-success">
+                        <i class="fa fa-check-circle"></i>
+                        <strong>Employee has already returned</strong>
+                        <br>
+                        Return Time: {{ return_time }}
+                    </div>
+                    {% else %}
+                    <!-- Return Entry Form -->
+                    <div class="mb-4">
+                        <h5 class="border-bottom pb-2">Mark Return</h5>
+                        <form id="returnForm">
+                            <input type="hidden" id="gatepass_id" value="{{ gatepass.name }}">
+
+                            <div class="form-group">
+                                <label for="employee_verify">Employee ID <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="employee_verify"
+                                    placeholder="Enter employee ID to verify" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="in_time">Return Time <span class="text-danger">*</span></label>
+                                <input type="datetime-local" class="form-control" id="in_time"
+                                    value="{{ current_time.strftime('%Y-%m-%dT%H:%M') }}" required>
+                                <small class="form-text text-muted">
+                                    Current time is pre-filled. Adjust if needed.
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    <i class="fa fa-check"></i> Mark Return
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="message" class="mt-3"></div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('returnForm');
+        if (!form) return;
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const gatepass_id = document.getElementById('gatepass_id').value;
+            const employee_verify = document.getElementById('employee_verify').value;
+            const in_time = document.getElementById('in_time').value;
+            const expected_employee = '{{ gatepass.employee }}';
+
+            // Clear previous messages
+            document.getElementById('message').innerHTML = '';
+
+            // Validate employee
+            if (employee_verify !== expected_employee) {
+                showMessage('Employee ID does not match!', 'danger');
+                return;
+            }
+
+            // Convert datetime-local to proper format (YYYY-MM-DD HH:MM:SS)
+            const dateObj = new Date(in_time);
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const hours = String(dateObj.getHours()).padStart(2, '0');
+            const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+            const seconds = String(dateObj.getSeconds()).padStart(2, '0');
+            const return_time = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+            // Show loading
+            showMessage('<i class="fa fa-spinner fa-spin"></i> Processing...', 'info');
+
+            // Call API to mark return
+            frappe.call({
+                method: 'hr_addons.api.gatepass_api.mark_gatepass_return_with_validation',
+                args: {
+                    gatepass_id: gatepass_id,
+                    employee: employee_verify,
+                    return_time: return_time
+                },
+                callback: function (r) {
+                    if (r.message && r.message.status === 'success') {
+                        showMessage(
+                            '<i class="fa fa-check-circle"></i> ' + r.message.message,
+                            'success'
+                        );
+                        // Disable form
+                        form.querySelectorAll('input, button').forEach(el => el.disabled = true);
+
+                        // Reload page after 2 seconds
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        showMessage(
+                            '<i class="fa fa-exclamation-triangle"></i> ' + (r.message.message || 'Failed to mark return'),
+                            'danger'
+                        );
+                    }
+                },
+                error: function (r) {
+                    showMessage(
+                        '<i class="fa fa-exclamation-triangle"></i> Error: ' + (r.message || 'Failed to mark return'),
+                        'danger'
+                    );
+                }
+            });
+        });
+
+        function showMessage(message, type) {
+            document.getElementById('message').innerHTML =
+                '<div class="alert alert-' + type + '">' + message + '</div>';
+        }
+    });
+</script>
+
+<style>
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+    }
+
+    .badge {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+</style>
+{% endblock %}
