@@ -11,6 +11,11 @@ from frappe.model.naming import make_autoname
 
 class Gatepass(Document):
     def on_submit(self):
+        # Check if gatepass is disabled in HR Addons Settings
+        hr_settings = frappe.get_single("HR Addons Settings")
+        if hr_settings.disable_gatepass:
+            frappe.throw("Gatepass is disabled in HR Addons Settings. Please enable it to submit gatepasses.")
+        
         settings = frappe.get_single("Gatepass Setting")
 
         # Track if in_time was auto-set by create_checkin
