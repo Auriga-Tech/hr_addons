@@ -338,6 +338,11 @@ def set_daily_overtime(self, method=None):
 @frappe.whitelist()
 def apply_gatepass_deduction(doc,method=None):
     """Apply gatepass deduction to attendance"""
+    # Check if gatepass is disabled in HR Addons Settings
+    hr_settings = frappe.get_single("HR Addons Settings")
+    if hr_settings.disable_gatepass:
+        return
+    
     settings = frappe.get_single("Gatepass Setting")
     
     if not settings.deduct_from_working_hours:

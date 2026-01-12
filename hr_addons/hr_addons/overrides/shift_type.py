@@ -64,6 +64,11 @@ class ShiftType(BaseShiftType):
             
     def update_gatepass_status(self):
         """Update and submit all Gatepass records with docstatus 0."""
+        # Check if gatepass is disabled in HR Addons Settings
+        hr_settings = frappe.get_single("HR Addons Settings")
+        if hr_settings.disable_gatepass:
+            return
+        
         gatepass_records = frappe.get_all(
             "Gatepass",
             filters={"docstatus": 0},
